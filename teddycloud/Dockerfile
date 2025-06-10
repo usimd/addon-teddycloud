@@ -1,7 +1,7 @@
 ARG TEDDYCLOUD_VERSION="v0.6.4"
 
 # Use official TeddyCloud upstream image to fetch binary
-FROM ghcr.io/toniebox-reverse-engineering/teddycloud:${TEDDYCLOUD_VERSION}_debian AS teddycloud
+FROM --platform=linux/${BUILD_ARCH} ghcr.io/toniebox-reverse-engineering/teddycloud:${TEDDYCLOUD_VERSION}_debian AS teddycloud
 
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM} 
