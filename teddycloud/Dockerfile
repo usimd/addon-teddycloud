@@ -1,4 +1,4 @@
-ARG TEDDYCLOUD_VERSION="v0.6.4"
+ARG TEDDYCLOUD_VERSION="0.6.4"
 # Build arguments
 ARG BUILD_ARCH
 ARG BUILD_DATE
@@ -13,7 +13,7 @@ ARG BUILD_FROM
 FROM ghcr.io/toniebox-reverse-engineering/teddycloud:${TEDDYCLOUD_VERSION}_debian AS teddycloud
 
 # hadolint ignore=DL3006
-FROM ${BUILD_FROM} 
+FROM $BUILD_FROM
 
 EXPOSE 80 443 8443
 
