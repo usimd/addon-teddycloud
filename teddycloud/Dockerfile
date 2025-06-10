@@ -1,31 +1,7 @@
-# Setup base
-ARG BUILD_ARCH=amd64
 ARG TEDDYCLOUD_VERSION="v0.6.4"
-ARG BUILD_FROM=ghcr.io/hassio-addons/ubuntu-base/${BUILD_ARCH}:latest
-# hadolint ignore=DL3006
-FROM ${BUILD_FROM} AS buildenv
 
-# Set shell
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
-# Install necessary dependencies
-RUN apt-get update \
-    && apt-get upgrade -qq \
-    && apt-get install -y --no-install-recommends \
-        gcc=4:13.2.0-7ubuntu1 \
-        protobuf-c-compiler=1.4.1-1ubuntu4 \
-        build-essential=12.10ubuntu1 \
-        git=1:2.43.0-1ubuntu7.2 \
-        curl=8.5.0-2ubuntu10.6 \
-        zip=3.0-13ubuntu0.2
-
-WORKDIR /buildenv
-RUN git clone https://github.com/toniebox-reverse-engineering/teddycloud /buildenv && git checkout tc_${TEDDYCLOUD_VERSION} \
-    && curl -f https://raw.githubusercontent.com/toniebox-reverse-engineering/tonies-json/release/tonies.json -o /buildenv/contrib/config/tonies.json || true \
-    && curl -f https://raw.githubusercontent.com/toniebox-reverse-engineering/tonies-json/release/tonieboxes.json -o /buildenv/contrib/config/tonieboxes.json || true \
-    && git submodule init \
-    && git submodule update \
-    && make preinstall
+# Use official TeddyCloud upstream image to fetch binary
+FROM ghcr.io/toniebox-reverse-engineering/teddycloud:${TEDDYCLOUD_VERSION}_debian AS teddycloud
 
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM} 
@@ -33,9 +9,9 @@ FROM ${BUILD_FROM}
 EXPOSE 80 443 8443
 
 # Copy files from the build environment
-COPY --from=buildenv /buildenv/install/pre/data/www/ /teddycloud/data/www/
-COPY --from=buildenv /buildenv/install/pre/*.sh /usr/local/bin/
-COPY --from=buildenv /buildenv/install/pre/teddycloud /usr/local/bin/teddycloud
+COPY --from=teddycloud /teddycloud/data/www/ /teddycloud/data/www/
+COPY --from=teddycloud /teddycloud/*.sh /usr/local/bin/
+COPY --from=teddycloud /usr/local/bin/teddycloud /usr/local/bin/teddycloud
 
 # Install necessary runtime dependencies
 RUN apt-get update \ 
