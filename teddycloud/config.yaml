@@ -3,11 +3,11 @@ name: TeddyCloud
 version: dev
 slug: teddycloud
 description: An alternative server for your Toniebox
-url: https://github.com/mrueg/addon-teddycloud
+url: https://github.com/usimd/addon-teddycloud
 ingress: true
 ingress_stream: true
 panel_icon: mdi:teddy-bear
-image: ghcr.io/mrueg/teddycloud/{arch}
+image: ghcr.io/toniebox-reverse-engineering/teddycloud/{arch}
 arch:
   - aarch64
   - amd64
