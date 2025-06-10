@@ -12,7 +12,13 @@ ARG TEDDYCLOUD_VERSION="v0.6.4"
 # Install necessary dependencies
 RUN apt-get update \
     && apt-get upgrade -qq \
-    && apt-get install -y --no-install-recommends gcc protobuf-c-compiler build-essential git curl zip
+    && apt-get install -y --no-install-recommends \
+        gcc==4:13.2.0-7ubuntu1 \
+        protobuf-c-compiler==1.4.1-1ubuntu4 \
+        build-essential==12.10ubuntu1 \
+        git==1:2.43.0-1ubuntu7.2 \
+        curl==8.5.0-2ubuntu10.6 \
+        zip==3.0-13ubuntu0.2
 
 WORKDIR /buildenv
 RUN git clone https://github.com/toniebox-reverse-engineering/teddycloud /buildenv && git checkout tc_${TEDDYCLOUD_VERSION} \
@@ -35,7 +41,13 @@ COPY --from=buildenv /buildenv/install/pre/teddycloud /usr/local/bin/teddycloud
 # Install necessary runtime dependencies
 RUN apt-get update \ 
     && apt-get upgrade -qq \
-    && apt-get install -y --no-install-recommends libubsan1 strace ffmpeg curl ca-certificates nginx \
+    && apt-get install -y --no-install-recommends \
+        libubsan1==14.2.0-4ubuntu2~24.04 \
+        strace==6.8-0ubuntu2 \
+        ffmpeg==7:6.1.1-3ubuntu5 \
+        curl==8.5.0-2ubuntu10.6 \
+        ca-certificates==20240203 \
+        nginx==1.24.0-2ubuntu7.3 \
     && rm -rf /var/lib/apt/lists/* \
     && update-ca-certificates \
     && mkdir -p /teddycloud/data/ /teddycloud/data/www/ \
