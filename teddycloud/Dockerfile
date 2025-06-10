@@ -1,4 +1,13 @@
 ARG TEDDYCLOUD_VERSION="v0.6.4"
+# Build arguments
+ARG BUILD_ARCH
+ARG BUILD_DATE
+ARG BUILD_DESCRIPTION
+ARG BUILD_NAME
+ARG BUILD_REF
+ARG BUILD_REPOSITORY
+ARG BUILD_VERSION
+ARG BUILD_FROM
 
 # Use official TeddyCloud upstream image to fetch binary
 FROM ghcr.io/toniebox-reverse-engineering/teddycloud:${TEDDYCLOUD_VERSION}_debian AS teddycloud
@@ -37,16 +46,6 @@ RUN apt-get update \
 
 # Copy root filesystem
 COPY rootfs /
-
-# Build arguments
-ARG BUILD_ARCH
-ARG BUILD_DATE
-ARG BUILD_DESCRIPTION
-ARG BUILD_NAME
-ARG BUILD_REF
-ARG BUILD_REPOSITORY
-ARG BUILD_VERSION
-ARG BUILD_FROM
 
 # Labels
 LABEL \
