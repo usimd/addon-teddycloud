@@ -26,7 +26,7 @@ fi
 mkdir -p /data/teddycloud
 if [[ -z "$(ls -A /data/teddycloud)" ]]; then
    bashio::log.info "Data store is empty; creating a new one"
-   mkdir -p /data/teddycloud/content /data/teddycloud/library /data/teddycloud/custom_img /data/teddycloud/firmware /data/teddycloud/cache
+   mkdir -p /data/teddycloud/content /data/teddycloud/library /data/teddycloud/custom_img /data/teddycloud/firmware /data/teddycloud/cache /data/teddycloud/certs/{server,client}
 fi
 
 if [[ -d /config/data/ ]]; then
